@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>wpo-wiki</title>
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0-rc2/css/bootstrap.min.css">
+   <style>
+       body {
+           padding-top: 60px;
+       }
+   </style>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">WPO-Wiki</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" id="email" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" class="form-control">
+                </div>
+                <button id="login" class="btn btn-success">Log in</button>
+                <label class="label label-success" id="userName" style="display: none"></label>
+                <button id="logout" class="btn btn-info" style="display: none">Log out</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <input type="text" id="wikiName" placeholder="wike name" >
+            <button type="button" id="addWiki"  class="btn  btn-success">add wiki</button>
+            <ul class="nav" id="wiki_list">
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div id="epiceditor"></div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.staticfile.org/jquery/2.0.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/twitter-bootstrap/3.0.0-rc2/js/bootstrap.min.js"></script>
+<script src="epiceditor/js/epiceditor.min.js"></script>
+<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+<script type='text/javascript'src='https://cdn.firebase.com/v0/firebase-simple-login.js'> </script>
+<script type="text/javascript" src="js/wiki.js"></script>
+<script src="js/jquery.ba-hashchange.min.js"></script>
+<script>
+    var opts = {
+        autogrow: true,
+        file:{
+            defaultContent:"#亲，欢迎来到WPO-Wiki"
+        }
+    };
+    var editor = new EpicEditor(opts).load();
+    editor.preview();
+    Wiki.init();
+    $("#login").click(function(){
+        Wiki.auth.login('password', {
+            email: $("#email").val(),
+            password:$("#password").val(),
+            rememberMe: true
+        });
+        $("#email").val("");
+        $("#password").val("")
+    });
+    $("#logout").click(function(){
+        Wiki.auth.logout();
+    });
+    $("#addWiki").click(function(){
+        Wiki.addWiki($("#wikiName").val());
+        $("#wikiName").val('');
+    });
+    $("#wiki_list").click(function(){
+        console.log()
+    });
+</script>
+</body>
+</html>
